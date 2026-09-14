@@ -7,6 +7,7 @@ const router = Router();
 // Public routes
 router.post("/register", AuthController.register);
 router.post("/verify-email", AuthController.verifyEmail);
+router.post("/resend-verification", AuthController.resendVerification);
 router.post("/login", AuthController.login);
 router.post("/logout", AuthController.logout);
 router.post("/forgot-password", AuthController.forgotPassword);

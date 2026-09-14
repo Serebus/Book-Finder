@@ -83,6 +83,43 @@ export class AuthController {
   }
 
   /**
+   * POST /api/auth/resend-verification
+   */
+  static async resendVerification(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      const { email } = req.body;
+
+      if (!email || typeof email !== "string") {
+        res.status(400).json({
+          error: "BadRequest",
+          message: "Email is required.",
+        });
+        return;
+      }
+
+      const token = await AuthService.resendVerificationToken(email);
+
+      res.status(200).json({
+        success: true,
+        message:
+          "If the email belongs to an unverified account, a new verification token has been generated.",
+        data: {
+          verificationToken: token,
+        },
+      });
+    } catch (error: any) {
+      res.status(400).json({
+        error: "ResendVerificationFailed",
+        message: error.message || "Failed to resend verification email.",
+      });
+    }
+  }
+
+  /**
    * POST /api/auth/login
    */
   static async login(

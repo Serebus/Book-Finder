@@ -71,6 +71,13 @@ export const swaggerSpec = {
           token: { type: "string", example: "a9c1e7f0b2d3..." },
         },
       },
+      ResendVerificationRequest: {
+        type: "object",
+        required: ["email"],
+        properties: {
+          email: { type: "string", format: "email", example: "reader@example.com" },
+        },
+      },
       ForgotPasswordRequest: {
         type: "object",
         required: ["email"],
@@ -162,6 +169,30 @@ export const swaggerSpec = {
           },
           400: {
             description: "Invalid or expired token",
+          },
+        },
+      },
+    },
+    "/api/auth/resend-verification": {
+      post: {
+        tags: ["Authentication"],
+        summary: "Resend email verification token",
+        description:
+          "Generates a new verification token in 'email_verifications' for an unverified user account.",
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: { $ref: "#/components/schemas/ResendVerificationRequest" },
+            },
+          },
+        },
+        responses: {
+          200: {
+            description: "New verification token generated successfully",
+          },
+          400: {
+            description: "Email is already verified or user not found",
           },
         },
       },

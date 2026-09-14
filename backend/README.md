@@ -139,6 +139,7 @@ Once the server is running, you can view, test, and explore all endpoints intera
 |---|---|---|---|
 | `POST` | `/api/auth/register` | Register a new user & create email verification record | No |
 | `POST` | `/api/auth/verify-email` | Verify user email with verification token | No |
+| `POST` | `/api/auth/resend-verification` | Generate a new verification token for an unverified user | No |
 | `POST` | `/api/auth/login` | Login user, log attempt in `login_attempts`, create `session` | No |
 | `POST` | `/api/auth/logout` | Invalidate active session | Yes / Token |
 | `POST` | `/api/auth/forgot-password` | Request password reset token | No |

@@ -142,6 +142,50 @@ export class AuthService {
   }
 
   /**
+   * Request a new verification token for an unverified user.
+   */
+  static async resendVerificationToken(email: string): Promise<string | null> {
+    assertSupabaseConfigured();
+    const cleanEmail = email.trim().toLowerCase();
+
+    const { data: user, error: userError } = await supabase
+      .from("users")
+      .select("user_id, email_verified, is_active")
+      .eq("email", cleanEmail)
+      .maybeSingle();
+
+    if (userError || !user || !user.is_active) {
+      return null;
+    }
+
+    if (user.email_verified) {
+      throw new Error("This email is already verified.");
+    }
+
+    const verificationToken = generateSecureToken(32);
+    const expiresAt = new Date(
+      Date.now() + EMAIL_VERIFICATION_TTL_HOURS * 60 * 60 * 1000
+    ).toISOString();
+
+    const { error: insertError } = await supabase
+      .from("email_verifications")
+      .insert({
+        user_id: user.user_id,
+        verification_token: verificationToken,
+        expires_at: expiresAt,
+        is_verified: false,
+      });
+
+    if (insertError) {
+      throw new Error(
+        `Failed to generate verification token: ${insertError.message}`
+      );
+    }
+
+    return verificationToken;
+  }
+
+  /**
    * Log in a user, track the attempt in LOGIN_ATTEMPT, and issue a SESSION.
    */
   static async login(
