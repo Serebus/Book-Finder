@@ -96,3 +96,10 @@ CREATE TRIGGER trg_users_updated_at
     BEFORE UPDATE ON users
     FOR EACH ROW
     EXECUTE FUNCTION update_timestamp_column();
+
+-- Disable RLS on these custom tables so the backend can manage authentication records
+-- ALTER TABLE users DISABLE ROW LEVEL SECURITY;
+-- ALTER TABLE sessions DISABLE ROW LEVEL SECURITY;
+-- ALTER TABLE password_resets DISABLE ROW LEVEL SECURITY;
+-- ALTER TABLE email_verifications DISABLE ROW LEVEL SECURITY;
+-- ALTER TABLE login_attempts DISABLE ROW LEVEL SECURITY;
