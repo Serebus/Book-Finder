@@ -119,6 +119,15 @@ This creates the 5 tables, indices, and the automated `updated_at` trigger.
 
 ---
 
+## 📚 Interactive Swagger UI Documentation
+
+Once the server is running, you can view, test, and explore all endpoints interactively in your browser:
+
+- **Swagger UI**: [http://localhost:5000/docs](http://localhost:5000/docs) (or `http://localhost:5000/api-docs`)
+- **OpenAPI 3.0 JSON Spec**: [http://localhost:5000/docs.json](http://localhost:5000/docs.json)
+
+---
+
 ## 📡 API Endpoints
 
 ### Health Check
